@@ -61,16 +61,18 @@ async function init() {
     'click',
     () => sendMessageToSw('Hello, I am from postMessage'),
   );
-  const fetchDom = document.getElementById('fetch');
-  fetchDom.addEventListener('click', () => sendFetchRequest());
+  const fetchCarDom = document.getElementById('fetch_car');
+  fetchCarDom.addEventListener('click', () => sendFetchRequest('./car.html'));
+  const fetchTrainDom = document.getElementById('fetch_car');
+  fetchTrainDom.addEventListener('click', () => sendFetchRequest('./train.html'));
 
   const initMessage = 'init';
   writePgLogToDb(initMessage);
   writeLogToDom(initMessage);
 }
 
-async function sendFetchRequest() {
-  const data = await fetch('./hello_world');
+async function sendFetchRequest(path) {
+  const data = await fetch(path);
   const message = `Fetch Data: ${await data.text()}`;
   writePgLogToDb(message);
   writeLogToDom(message);
