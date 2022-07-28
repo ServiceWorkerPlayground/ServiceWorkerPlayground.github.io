@@ -8,7 +8,6 @@ writeSwLogToDb(`startup ${version}`);
 
 let messageCount = 0;
 let fetchCount = 0;
-let pollingCount = 0;
 
 self.addEventListener('install', function(event) {
   console.log('[SW] install event', version, self);
@@ -19,34 +18,16 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
   event.respondWith(fetch(event.request));
   fetchCount++;
-  const msg = `Got a fetch request: ${event.request.url} / ${messageCount}, ${fetchCount}, ${pollingCount}`;
+  const msg = `Got a fetch request: ${event.request.url} / ${messageCount}, ${fetchCount}`;
   console.log('[SW]', msg);
   writeSwLogToDb(msg);
 });
 
 self.addEventListener('message', function(event) {
-  console.log(`[SW] Got a message: ${event.data}`, messageCount, fetchCount, pollingCount, version);
   messageCount++;
+  console.log(`[SW] Got a message: ${event.data}`, messageCount, fetchCount, version);
   writeSwLogToDb(`Got a message: ${event.data}`);
 });
-
-async function init() {
-  console.log('[SW] startWritingTimestamp', version);
-  writeSwLogToDb(`startWritingTimestamp ${version}`);
-
-  const cb = async () => {
-    writeTimestamp(await dbPromise);
-    pollingCount++;
-    console.log(
-      '[SW] setTimeout - polling',
-      { messageCount, fetchCount, pollingCount },
-      version,
-    );
-    setTimeout(cb, 2000);
-  };
-  cb();
-}
-init();
 
 async function writeSwLogToDb(message) {
   return writeLogToDb(

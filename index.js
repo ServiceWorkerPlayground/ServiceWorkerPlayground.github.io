@@ -51,13 +51,6 @@ async function main() {
   }
 
   init();
-
-  window.addEventListener('beforeunload', async (event) => {
-    const message = 'Close!';
-    await writePgLogToDb(message);
-    event.returnValue = 'You have unfinished changes!';
-  });
-
 }
 
 main();
@@ -70,45 +63,10 @@ async function init() {
   );
   const fetchDom = document.getElementById('fetch');
   fetchDom.addEventListener('click', () => sendFetchRequest());
-  const tsDom = document.getElementById('ts');
 
   const initMessage = 'init';
   writePgLogToDb(initMessage);
   writeLogToDom(initMessage);
-
-  let isIdle = false;
-
-  setInterval(async () => {
-    const record = await readTimestamp(await dbPromise);
-    if (!record || !record.data) {
-      throw new Error('Timestamp is Unavailable!!');
-    }
-    const { data: ts } = record;
-    const now = Date.now();
-    if ((now - ts) > 4000) {
-      const message = `SW is terminated (Last seen: ${(new Date(ts)).toLocaleString()})`;
-      writeLogToDom(message);
-
-      if (!isIdle) {
-        writePgLogToDb(message);
-      }
-      isIdle = true;
-      tsDom.classList.add('terminated');
-      tsDom.classList.remove('awake');
-    } else {
-      isIdle = false;
-      tsDom.classList.remove('terminated');
-      tsDom.classList.add('awake');
-    }
-    const controller = navigator.serviceWorker.controller;
-    tsDom.textContent = `${(new Date(ts)).toLocaleString()} / ${controller ? controller.state : undefined}`;
-  }, 2000);
-}
-
-function closeDevTools() {
-  const message = `Close DevTools`;
-  writeLogToDom(message);
-  writePgLogToDb(message);
 }
 
 async function sendFetchRequest() {
