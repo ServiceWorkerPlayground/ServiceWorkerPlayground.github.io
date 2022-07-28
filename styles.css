@@ -1,0 +1,55 @@
+* {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: [first] auto [end];
+  grid-template-rows: [row1-start] 70px [row1-end] 70px [row2-end] auto [last-line];
+}
+button {
+  margin: 15px 10px;
+  background-color: gray;
+}
+#ts {
+  padding: 4px;
+  border: 1px solid white;
+  border-radius: 7px;
+}
+#ts.terminated {
+  background-color: orange;
+}
+#ts.awake {
+  background-color: green;
+}
+#log {
+  overflow: scroll;
+  height: 100%;
+}
+section.nav {
+  padding: 10px;
+  grid-column-start: 1;
+  grid-column-end: span end;
+  grid-row-start: 1;
+  grid-row-end: span row1-end;
+}
+section.toolbox {
+  padding: 10px;
+  grid-column-start: 1;
+  grid-column-end: span end;
+  grid-row-start: 2;
+  grid-row-end: span row2-end;
+}
+section.information {
+  padding: 10px;
+  overflow: hidden;
+  grid-column-start: 1;
+  grid-column-end: span end;
+  grid-row-start: 3;
+  grid-row-end: span last-line;
+}

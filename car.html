@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Car</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<section class="nav">
+  <h3>Car</h3>
+  <div>Go to <a href="./index.html">Home</a></div>
+  <div>Go to <a href="./train.html">Train (Not Existing)</a></div>
+</section>
+<section class="toolbox">
+  <div>SW Timestamp: <span id="ts"></span></div>
+  <button id="fetch">Fetch!</button>
+  <button id="message">Message!</button>
+  <label for="autoscroll">
+    <input type="checkbox" id="autoscroll" checked style="margin-right: 5px;">
+    Auto-scroll Log
+  </label>
+</section>
+<section class="information">
+  <pre id="log"></pre>
+</section>
+<script src="db.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
