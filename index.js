@@ -63,7 +63,7 @@ async function init() {
   );
   const fetchCarDom = document.getElementById('fetch_car');
   fetchCarDom.addEventListener('click', () => sendFetchRequest('./car.html'));
-  const fetchTrainDom = document.getElementById('fetch_car');
+  const fetchTrainDom = document.getElementById('fetch_train');
   fetchTrainDom.addEventListener('click', () => sendFetchRequest('./train.html'));
 
   const initMessage = 'init';
@@ -73,7 +73,8 @@ async function init() {
 
 async function sendFetchRequest(path) {
   const data = await fetch(path);
-  const message = `Fetch Data: ${await data.text()}`;
+  console.log(data);
+  const message = `Fetch Data Status: ${data.status} ${data.statusText}`;
   writePgLogToDb(message);
   writeLogToDom(message);
 }
